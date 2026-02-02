@@ -1,0 +1,23 @@
+{
+ "content": null,
+ "creation": "2026-01-27 16:27:08.887025",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2026-01-27 17:47:53.478970",
+ "modified_by": "Administrator",
+ "module": "EVENT_MANAGEMENT",
+ "name": "speaker-live",
+ "owner": "Administrator",
+ "page_name": "speaker-live",
+ "roles": [
+  {
+   "role": "Event Speaker"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Speaker Live Panel"
+}

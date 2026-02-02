@@ -1,0 +1,48 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-23 14:25:57.853659",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "speaker_name",
+  "speaker_email",
+  "pin_s"
+ ],
+ "fields": [
+  {
+   "fieldname": "speaker_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Speaker Name"
+  },
+  {
+   "fieldname": "speaker_email",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Speaker Email"
+  },
+  {
+   "fieldname": "pin_s",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "PIN"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-01-23 17:44:05.024024",
+ "modified_by": "Administrator",
+ "module": "EVENT_MANAGEMENT",
+ "name": "Speaker List",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

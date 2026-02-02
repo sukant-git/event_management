@@ -1,0 +1,48 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-23 14:24:34.146880",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "attender_name",
+  "attender_email",
+  "pin_a"
+ ],
+ "fields": [
+  {
+   "fieldname": "attender_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Attender Name"
+  },
+  {
+   "fieldname": "attender_email",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Attender Email"
+  },
+  {
+   "fieldname": "pin_a",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "PIN "
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-01-23 17:37:50.678502",
+ "modified_by": "Administrator",
+ "module": "EVENT_MANAGEMENT",
+ "name": "Attender List",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

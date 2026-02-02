@@ -1,0 +1,23 @@
+{
+ "content": null,
+ "creation": "2026-01-27 16:27:08.855238",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2026-01-27 17:48:14.836829",
+ "modified_by": "Administrator",
+ "module": "Event Management",
+ "name": "attender-live",
+ "owner": "Administrator",
+ "page_name": "attender-live",
+ "roles": [
+  {
+   "role": "Event Attender"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Attender Live Panel"
+}

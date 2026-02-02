@@ -1,0 +1,24 @@
+{
+ "content": null,
+ "creation": "2026-01-27 16:32:01.581189",
+ "docstatus": 0,
+ "doctype": "Page",
+ "icon": "",
+ "idx": 0,
+ "modified": "2026-01-27 17:21:55.227767",
+ "modified_by": "Administrator",
+ "module": "EVENT_MANAGEMENT",
+ "name": "event-login",
+ "owner": "Administrator",
+ "page_name": "event-login",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "event login"
+}

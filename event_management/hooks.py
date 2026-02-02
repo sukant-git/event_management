@@ -26,7 +26,11 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/event_management/css/event_management.css"
-# app_include_js = "/assets/event_management/js/event_management.js"
+app_include_js = [
+	"/assets/event_management/js/vue.global.js",
+	"/assets/event_management/js/vue_plugin.js",
+	"/assets/event_management/js/global_script.js"
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/event_management/css/event_management.css"
