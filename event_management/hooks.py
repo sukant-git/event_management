@@ -29,6 +29,7 @@ app_license = "mit"
 app_include_js = [
 	"/assets/event_management/js/vue.global.js",
 	"/assets/event_management/js/vue_plugin.js",
+	"/assets/event_management/js/vue3-sfc-loader.js",
 	"/assets/event_management/js/global_script.js"
 ]
 

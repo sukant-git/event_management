@@ -1,5 +1,5 @@
-import frappe
-from frappe.utils import now
+import frappe # type: ignore
+from frappe.utils import now # type: ignore
 
 @frappe.whitelist()
 def event_login(event_name, username, pin):
@@ -66,3 +66,8 @@ def send_live_message(docname, message, user_type="speaker"):
         "message": message,
         "timestamp": str(now())
     }
+
+
+
+
+

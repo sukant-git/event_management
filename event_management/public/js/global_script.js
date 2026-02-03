@@ -1,25 +1,150 @@
+// frappe.provide('frappe.event_management');
+
+// const sfcOptions = {
+//     moduleCache: {
+//         vue: Vue
+//     },
+//     async getFile(url) {
+//         const res = await fetch(url);
+//         if (!res.ok) throw Object.assign(new Error(res.statusText + ' ' + url), { res });
+//         return {
+//             getContentData: (asBinary) => asBinary ? res.arrayBuffer() : res.text(),
+//         }
+//     },
+//     addStyle(textContent) {
+//         const style = document.createElement('style');
+//         style.textContent = textContent;
+//         const ref = document.head.getElementsByTagName('style')[0] || null;
+//         document.head.insertBefore(style, ref);
+//     },
+//     log(type, ...args) {
+//         console[type](...args);
+//     }
+// };
+
+// const loadVueComponent = (path) => {
+//     return Vue.defineAsyncComponent(() => window['vue3-sfc-loader'].loadModule(path, sfcOptions));
+// };
+
+// frappe.event_management.EventLogin = class {
+//     constructor({ wrapper, eventName, username, pin } = {}) {
+//         this.wrapper = wrapper;
+//         this.event_name = eventName || '';
+//         this.username = username || '';
+//         this.pin = pin || '';
+//         this.make_body();
+//     }
+
+//     make_body() {
+//         const me = this;
+//         this.app = Vue.createApp({
+//             components: {
+//                 'event-login': loadVueComponent('/assets/event_management/js/components/event_login.vue')
+//             },
+//             template: `<event-login :initial-event-name="eventName" :initial-username="username" :initial-pin="pin" />`,
+//             data() {
+//                 return {
+//                     eventName: me.event_name,
+//                     username: me.username,
+//                     pin: me.pin
+//                 }
+//             }
+//         });
+//         frappe.event_management.SetVueGlobals(this.app);
+//         this.vue = this.app.mount(this.wrapper);
+//     }
+// };
+
+// frappe.event_management.SpeakerLive = class {
+//     constructor({ wrapper, eventName, endTime, docname } = {}) {
+//         this.wrapper = wrapper;
+//         this.eventName = eventName;
+//         this.endTime = endTime;
+//         this.docname = docname;
+//         this.make_body();
+//     }
+
+//     make_body() {
+//         const me = this;
+//         this.app = Vue.createApp({
+//             components: {
+//                 'speaker-live': loadVueComponent('/assets/event_management/js/components/speaker.vue')
+//             },
+//             template: `<speaker-live :event-name="eventName" :end-time="endTime" :docname="docname" />`,
+//             data() {
+//                 return {
+//                     eventName: me.eventName,
+//                     endTime: me.endTime,
+//                     docname: me.docname
+//                 }
+//             }
+//         });
+//         frappe.event_management.SetVueGlobals(this.app);
+//         this.vue = this.app.mount(this.wrapper);
+//     }
+// };
+
+// frappe.event_management.AttenderLive = class {
+//     constructor({ wrapper, eventName } = {}) {
+//         this.wrapper = wrapper;
+//         this.eventName = eventName;
+//         this.make_body();
+//     }
+
+//     make_body() {
+//         const me = this;
+//         this.app = Vue.createApp({
+//             components: {
+//                 'attender-live': loadVueComponent('/assets/event_management/js/components/attender.vue')
+//             },
+//             template: `<attender-live :event-name="eventName" />`,
+//             data() {
+//                 return {
+//                     eventName: me.eventName
+//                 }
+//             }
+//         });
+//         frappe.event_management.SetVueGlobals(this.app);
+//         this.vue = this.app.mount(this.wrapper);
+//     }
+// };
+
+
 frappe.provide('frappe.event_management');
 
+
+
 const EventLoginTemplate = `
-<div style="max-width:420px; margin:100px auto; padding: 30px; border-radius: 12px; background: #f0f4f8; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #d1d9e6;">
+<div style="max-width:420px; margin:100px auto; padding: 30px; border-radius: 12px;
+background: #f0f4f8; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #d1d9e6;">
     <h3 class="text-center mb-4" style="color: #2c3e50; font-weight: 600;">Event Login</h3>
+
     <div class="form-group mb-3">
         <label class="form-label" style="font-size: 0.9em; color: #5c6873;">Event Name</label>
-        <input v-model="event_name" class="form-control" placeholder="Enter Event Name" @keyup.enter="handleLogin">
+        <input v-model="event_name" class="form-control"
+               placeholder="Enter Event Name" @keyup.enter="handleLogin">
     </div>
+
     <div class="form-group mb-3">
         <label class="form-label" style="font-size: 0.9em; color: #5c6873;">User Email</label>
-        <input v-model="username" class="form-control" placeholder="Enter your email" @keyup.enter="handleLogin">
+        <input v-model="username" class="form-control"
+               placeholder="Enter your email" @keyup.enter="handleLogin">
     </div>
+
     <div class="form-group mb-4">
         <label class="form-label" style="font-size: 0.9em; color: #5c6873;">PIN</label>
-        <input v-model="pin" type="password" class="form-control" placeholder="Enter PIN" @keyup.enter="handleLogin">
+        <input v-model="pin" type="password" class="form-control"
+               placeholder="Enter PIN" @keyup.enter="handleLogin">
     </div>
-    <button class="btn btn-primary btn-block w-100 py-2" @click="handleLogin" :disabled="loading" style="font-weight: 500;">
+
+    <button class="btn btn-primary btn-block w-100 py-2"
+            @click="handleLogin" :disabled="loading" style="font-weight: 500;">
         <span v-if="loading">Logging in...</span>
         <span v-else>Login</span>
     </button>
-    <div v-if="error" style="color:#e74c3c; margin-top:15px; font-size: 0.9em;" class="text-center">
+
+    <div v-if="error" style="color:#e74c3c; margin-top:15px; font-size: 0.9em;"
+         class="text-center">
         {{ error }}
     </div>
 </div>
@@ -29,36 +154,50 @@ const SpeakerLiveTemplate = `
 <div style="padding: 30px; background: #fdfaf6; min-height: calc(100vh - 80px); border-radius: 8px;">
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <div class="card shadow-sm p-4" style="background: white; border-radius: 12px; border: 1px solid #f1e9db;">
+            <div class="card shadow-sm p-4"
+                 style="background: white; border-radius: 12px; border: 1px solid #f1e9db;">
                 <h3 class="mb-4" style="color: #856404; font-weight: 600;">Type Live Message</h3>
+
                 <div class="form-group mb-4">
                     <div class="input-group">
-                        <input type="text" v-model="messageInput" class="form-control py-2" 
-                               placeholder="Type message and press Enter" @keypress.enter="sendMessage">
+                        <input type="text" v-model="messageInput"
+                               class="form-control py-2"
+                               placeholder="Type message and press Enter"
+                               @keypress.enter="sendMessage">
                         <button class="btn btn-primary" @click="sendMessage">Send</button>
                     </div>
                 </div>
+
                 <div ref="messageContainer"
-                     style="margin-top:20px; border:1px solid #f1e9db; background: #fffcf8;
-                     padding:20px; height:400px; overflow:auto; border-radius: 8px;">
-                    <div v-if="messages.length === 0" class="text-center text-muted" style="margin-top: 150px;">
+                     style="margin-top:20px; border:1px solid #f1e9db;
+                     background: #fffcf8; padding:20px; height:400px;
+                     overflow:auto; border-radius: 8px;">
+
+                    <div v-if="messages.length === 0"
+                         class="text-center text-muted" style="margin-top: 150px;">
                         No messages sent yet.
                     </div>
-                    <div v-for="(msg, index) in messages" :key="index" 
-                         style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #f9f3e8;">
+
+                    <div v-for="(msg, index) in messages" :key="index"
+                         style="margin-bottom: 15px; padding-bottom: 10px;
+                         border-bottom: 1px solid #f9f3e8;">
+
                         <div class="d-flex justify-content-between align-items-baseline mb-1">
-                            <b :style="{ color: msg.sender === 'speaker' ? '#0056b3' : '#28a745', textTransform: 'capitalize' }">
+                            <b :style="{ color: msg.sender === 'speaker' ? '#0056b3' : '#28a745',
+                                 textTransform: 'capitalize' }">
                                 {{ msg.sender }}
                             </b>
                             <small style="color:#999; font-size: 0.75em;">
                                 {{ formatTime(msg.timestamp) }}
                             </small>
                         </div>
+
                         <div style="color: #444; word-wrap: break-word;">
                             {{ msg.message }}
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -69,33 +208,43 @@ const AttenderLiveTemplate = `
 <div style="padding: 20px; background: #f5fdf5; min-height: calc(100vh - 80px); border-radius: 8px;">
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <div class="card shadow-sm p-4" style="background: white; border-radius: 12px; border: 1px solid #e1eedd;">
-                <h3 class="mb-4" style="color: #2d5a27; font-weight: 600;">Live Messages from Speaker</h3>
-                <div ref="messageContainer" style="
-                    border: 1px solid #e1eedd; 
-                    padding: 20px; 
-                    height: 500px; 
-                    overflow: auto;
-                    background: #fbfdfb;
-                    border-radius: 8px;
-                ">
-                    <div v-if="messages.length === 0" class="text-center text-muted" style="margin-top: 200px;">
+            <div class="card shadow-sm p-4"
+                 style="background: white; border-radius: 12px; border: 1px solid #e1eedd;">
+                <h3 class="mb-4" style="color: #2d5a27; font-weight: 600;">
+                    Live Messages from Speaker
+                </h3>
+
+                <div ref="messageContainer"
+                     style="border: 1px solid #e1eedd; padding: 20px;
+                     height: 500px; overflow: auto; background: #fbfdfb;
+                     border-radius: 8px;">
+
+                    <div v-if="messages.length === 0"
+                         class="text-center text-muted" style="margin-top: 200px;">
                         Waiting for messages...
                     </div>
-                    <div v-for="(msg, index) in messages" :key="index" 
-                         style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #f1f8f0;">
+
+                    <div v-for="(msg, index) in messages" :key="index"
+                         style="margin-bottom: 15px; padding-bottom: 10px;
+                         border-bottom: 1px solid #f1f8f0;">
+
                         <div class="d-flex justify-content-between align-items-baseline mb-1">
-                            <strong :style="{ color: msg.sender === 'speaker' ? '#0056b3' : '#28a745', textTransform: 'capitalize' }">
+                            <strong :style="{ color: msg.sender === 'speaker'
+                                ? '#0056b3' : '#28a745',
+                                textTransform: 'capitalize' }">
                                 {{ msg.sender || 'Speaker' }}
                             </strong>
+
                             <small style="color:#999; font-size: 0.75em;">
                                 {{ formatTime(msg.timestamp) }}
                             </small>
                         </div>
+
                         <div style="color: #444; word-wrap: break-word;">
                             {{ msg.message }}
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -103,68 +252,72 @@ const AttenderLiveTemplate = `
 </div>
 `;
 
+
 frappe.event_management.EventLogin = class {
-    constructor({ wrapper, eventName, username, pin } = {}) {
+
+    constructor({ wrapper }) {
         this.wrapper = wrapper;
-        this.event_name = eventName || '';
-        this.username = username || '';
-        this.pin = pin || '';
         this.make_body();
     }
 
     make_body() {
         const me = this;
+
         this.app = Vue.createApp({
             template: EventLoginTemplate,
+
             data() {
                 return {
-                    event_name: me.event_name,
-                    username: me.username,
-                    pin: me.pin,
+                    event_name: '',
+                    username: '',
+                    pin: '',
                     loading: false,
                     error: ''
-                }
+                };
             },
+
             methods: {
                 handleLogin() {
                     if (!this.event_name || !this.username || !this.pin) {
-                        this.error = "All fields are required!";
+                        this.error = "All fields are required";
                         return;
                     }
+
                     this.loading = true;
-                    this.error = "";
+
                     frappe.call({
                         method: "event_management.api.event_login",
                         args: {
-                            event_name: this.event_name.trim(),
-                            username: this.username.trim(),
-                            pin: this.pin.trim()
+                            event_name: this.event_name,
+                            username: this.username,
+                            pin: this.pin
                         },
                         callback: (r) => {
                             this.loading = false;
-                            if (r.message && r.message.status === "success") {
-                                sessionStorage.setItem("event_user", r.message.name);
-                                sessionStorage.setItem("event_name", r.message.event_name);
+
+                            if (r.message?.status === "success") {
                                 sessionStorage.setItem("event_end_time", r.message.end_time);
                                 sessionStorage.setItem("event_docname", r.message.docname);
                                 frappe.set_route(r.message.next_page);
                             } else {
-                                this.error = r.message ? r.message.message : "Invalid credentials";
+                                this.error = r.message?.message || "Login failed";
                             }
                         }
                     });
                 }
             }
         });
+
         frappe.event_management.SetVueGlobals(this.app);
-        this.vue = this.app.mount(this.wrapper);
+        this.app.mount(this.wrapper);
     }
 };
 
+
 frappe.event_management.SpeakerLive = class {
-    constructor({ wrapper, eventName, endTime, docname } = {}) {
+
+    constructor({ wrapper, endTime, docname }) {
         this.wrapper = wrapper;
-        this.eventName = eventName;
         this.endTime = endTime;
         this.docname = docname;
         this.make_body();
@@ -172,90 +325,115 @@ frappe.event_management.SpeakerLive = class {
 
     make_body() {
         const me = this;
+
         this.app = Vue.createApp({
             template: SpeakerLiveTemplate,
+
             data() {
                 return {
-                    eventName: me.eventName,
                     messageInput: '',
                     messages: [],
                     docname: me.docname
-                }
+                };
             },
+
             mounted() {
+                
                 frappe.realtime.on('speaker_live_message', (data) => {
                     this.messages.push(data);
-                    this.$nextTick(() => this.scrollToBottom());
+                    this.scrollToBottom();
                 });
-                this.checkEventEnd();
+
                 this.interval = setInterval(this.checkEventEnd, 10000);
             },
+
             beforeUnmount() {
                 clearInterval(this.interval);
                 frappe.realtime.off('speaker_live_message');
             },
+
             methods: {
                 sendMessage() {
-                    const msg = this.messageInput.trim();
-                    if (!msg) return;
+                    if (!this.messageInput.trim()) return;
+
                     frappe.call({
                         method: "event_management.api.send_live_message",
-                        args: { docname: this.docname, message: msg, user_type: "speaker" },
-                        callback: () => { this.messageInput = ''; }
+                        args: {
+                            docname: this.docname,
+                            message: this.messageInput,
+                            user_type: "speaker"
+                        }
                     });
+
+                    this.messageInput = '';
                 },
-                formatTime(t) { return new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }); },
-                scrollToBottom() {
-                    const c = this.$refs.messageContainer;
-                    if (c) c.scrollTop = c.scrollHeight;
-                },
+
                 checkEventEnd() {
                     if (me.endTime && new Date() >= new Date(me.endTime)) {
                         sessionStorage.clear();
-                        frappe.msgprint("Event ended. Logged out.");
+                        frappe.msgprint("Event Ended");
                         frappe.set_route("event-login");
                     }
+                },
+
+                formatTime(t) {
+                    return new Date(t).toLocaleTimeString();
+                },
+
+                scrollToBottom() {
+                    const c = this.$refs.messageContainer;
+                    if (c) c.scrollTop = c.scrollHeight;
                 }
             }
         });
+
         frappe.event_management.SetVueGlobals(this.app);
-        this.vue = this.app.mount(this.wrapper);
+        this.app.mount(this.wrapper);
     }
 };
 
+
 frappe.event_management.AttenderLive = class {
-    constructor({ wrapper, eventName } = {}) {
+
+    constructor({ wrapper }) {
         this.wrapper = wrapper;
-        this.eventName = eventName;
         this.make_body();
     }
 
     make_body() {
         this.app = Vue.createApp({
             template: AttenderLiveTemplate,
-            data() { 
-                return { 
-                    messages: [] 
-                } 
+
+            data() {
+                return {
+                    messages: []
+                };
             },
+
             mounted() {
                 frappe.realtime.on('speaker_live_message', (data) => {
-                    if (data) {
-                        this.messages.push(data);
-                        this.$nextTick(() => this.scrollToBottom());
-                    }
+                    this.messages.push(data);
+                    this.scrollToBottom();
                 });
             },
-            beforeUnmount() { frappe.realtime.off('speaker_live_message'); },
+
+            beforeUnmount() {
+                frappe.realtime.off('speaker_live_message');
+            },
+
             methods: {
-                formatTime(t) { return t ? new Date(t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ""; },
+                formatTime(t) {
+                    return new Date(t).toLocaleTimeString();
+                },
+
                 scrollToBottom() {
                     const c = this.$refs.messageContainer;
                     if (c) c.scrollTop = c.scrollHeight;
                 }
             }
         });
+
         frappe.event_management.SetVueGlobals(this.app);
-        this.vue = this.app.mount(this.wrapper);
+        this.app.mount(this.wrapper);
     }
 };
